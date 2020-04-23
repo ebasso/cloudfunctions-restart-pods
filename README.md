@@ -5,6 +5,13 @@ Using IBM Cloud Functions to Restart Pods on Openshift
 
 This directory contains Docker build scripts and tools required to successfully build a Docker image with Domino 10. 
 
+### Clonando o repositório
+
+Vamos clonar o repositório.
+
+```
+git clone https://github.com/ebasso/cloudfunctions-restart-pods.git
+```
 
 ### Montando o ambiente
 

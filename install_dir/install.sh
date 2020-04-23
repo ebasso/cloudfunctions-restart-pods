@@ -2,9 +2,12 @@
 
 # Install Openshift CLI client
 echo "Install Openshift CLI client"
-#cd /tmp
-# curl https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz --output oc.tar.gz
-# curlhttps://mirror.openshift.com/pub/openshift-v3/clients/linux/oc-3.6.173.0.5-linux.tar.gz --output oc.tar.gz
+if [ ! -f "oc.tar.gz" ]; then
+    cd /tmp
+    curl https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz --output oc.tar.gz
+    # curlhttps://mirror.openshift.com/pub/openshift-v3/clients/linux/oc-3.6.173.0.5-linux.tar.gz --output oc.tar.gz
+fi
+
 tar -xzvf /tmp/oc.tar.gz -C /bin/
 chmod a+x /bin/oc
 
