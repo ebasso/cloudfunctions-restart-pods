@@ -1,30 +1,28 @@
 #!/bin/bash
 ############################################################################
-# (C) Copyright IBM Corporation 2015, 2019                                 #
-
-
-# Cloud Functions Docker Build Script
-# Usage  : ./build.sh <URL for download repository>
+# IBM Cloud Functions Docker Build Script
+# Usage  : ./ibmfnc.sh <COMMAND>
 # Example: ./build-image.sh http://192.168.1.1
 
 SCRIPT_NAME=$0
 SCRIPT_CMD=$1
 #SCRIPT_OP1=$2
 
-DOCKER_MAINTAINER="ebasso@br.ibm.com"
+DOCKER_MAINTAINER="ebasso@ebasso.net"
+DOCKER_REPOSITORY="ebasso"
+DOCKER_VERSION="1"
+DOCKER_FILE=
 
-DOCKER_FILE=dockerfile
-DOCKER_LABEL_PREFIX="com.ibm.restart_pods"
-DOCKER_IMAGE_NAME="ibmcloud/restart_pods_oc"
-DOCKER_TAG_LATEST="$DOCKER_IMAGE_NAME:latest"
-DOCKER_DESCRIPTION="IBM Cloud Functions - Restart Pods on OpenShift"
+DOCKER_IMAGE_NAME=
+DOCKER_TAG_LATEST=
+DOCKER_DESCRIPTION=
 
 CONTAINER_NAME="restart_pods_oc"
 
 usage ()
 {
   echo
-  echo "Usage: `basename $SCRIPT_NAME` { build | run | cleanup_images}"
+  echo "Usage: `basename $SCRIPT_NAME` { build_example01 | run | cleanup_images}"
   echo
   echo "build: Create IBM Cloud Functions container"
   return 0
@@ -63,8 +61,13 @@ docker_run_daemon ()
 #   echo
 # }
 
-docker_build ()
-{
+docker_build_restart_pods () {
+  DOCKER_FILE=dockerfile
+  DOCKER_LABEL="ibmcloudfunctions"
+  DOCKER_IMAGE_NAME="$DOCKER_REPOSITORY/$DOCKER_LABEL"
+  DOCKER_TAG_LATEST="$DOCKER_IMAGE_NAME:$DOCKER_VERSION"
+  DOCKER_DESCRIPTION="IBM Cloud Functions - Restart Pods on OpenShift"
+
   echo "Building Image : " $DOCKER_IMAGE_NAME
 
   # Get Build Time  
@@ -78,12 +81,9 @@ docker_build ()
   BUILD_ARG_1=""
   BUILD_ARG_2=""
   # Finally build the image
-  docker build --no-cache \
-    --label "buildtime"="$BUILDTIME" \
-    --label "$DOCKER_LABEL_PREFIX.maintainer"="$DOCKER_MAINTAINER" \
-    --label "$DOCKER_LABEL_PREFIX.description"="$DOCKER_DESCRIPTION" \
-    --label "$DOCKER_LABEL_PREFIX.version"="$DOCKER_IMAGE_VERSION" \
-    --label "$DOCKER_LABEL_PREFIX.buildtime"="$BUILDTIME" \
+  docker build --no-cache --label "buildtime"="$BUILDTIME" \
+    --label "$DOCKER_LABEL.maintainer"="$DOCKER_MAINTAINER" --label "$DOCKER_LABEL.description"="$DOCKER_DESCRIPTION" \
+    --label "$DOCKER_LABEL.version"="$DOCKER_IMAGE_VERSION" --label "$DOCKER_LABEL.buildtime"="$BUILDTIME" \
     -t $DOCKER_TAG_LATEST \
     -f $DOCKER_FILE \
     $BUILD_ARG_1 $BUILD_ARG_2 .
@@ -96,15 +96,15 @@ docker_build ()
 docker_images_cleanup ()
 {
   echo "Cleanup Docker images <none>"
-  docker images|awk '{ print $1" "$3 }'| grep none | awk '{ print $3 }' | xargs docker rmi
+  docker images|awk '{ print $1" "$3 }'|grep '<none>'|awk '{ print $2 }'|xargs docker rmi
   echo
   docker images
   echo
 }
 
 case "$SCRIPT_CMD" in
-  build)
-    docker_build
+  build_example01)
+    docker_build_restart_pods
     ;;
 
   run)
