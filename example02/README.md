@@ -4,16 +4,14 @@ Example 02 - Using a manifest file to deploy
 Create action using NodeJs example
 
 ```sh
-ibmcloud fn deploy --manifest hello_js_manifest.yml
+$ ibmcloud fn deploy --manifest hello_js_manifest.yml
 ```
 
 List the actions by using the following command.
 
 ```sh
-ibmcloud fn action list
-```
+$ ibmcloud fn action list
 
-```
 actions
 /<GUID>/example02/hello-js               private nodejs:10
 ```
@@ -21,12 +19,8 @@ actions
 List the APIs by using the following command.
 
 ```bash
-ibmcloud fn api list -f
-```
+$ ibmcloud fn api list -f
 
-Output
-
-```
 ok: APIs
 
 Action: /<GUID>/example02/hello-js
@@ -37,7 +31,7 @@ Action: /<GUID>/example02/hello-js
    URL: https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/.../hello/world
 ```
 
-Invoke the api
+Invoke the api using curl or copy and paste url on your browser
 
 ```sh
 curl URL-FROM-API-LIST-OUTPUT
@@ -54,8 +48,3 @@ The deployment manifest file defines the following variables.
 * The API with a base path of /hello.
 * The endpoint path of /world.
 
-
-#### Source code
-The source code for the manifest and JavaScript files can be found here:
-- [hello.js](https://github.com/ebasso/ibm-cloudfunctions-examples/blob/master/example02/hello.js)
-- [hello_js_manifest.yml](https://github.com/ebasso/ibm-cloudfunctions-examples/blob/master/example02/hello_js_manifest.yml)
