@@ -2,30 +2,29 @@
 ############################################################################
 # IBM Cloud Functions Docker Build Script
 # Usage  : ./ibmfnc.sh <COMMAND>
-# Example: ./ibmfnc.sh build_example01
-#
-############################################################################
+# Example: ./build-image.sh http://192.168.1.1
 
 SCRIPT_NAME=$0
 SCRIPT_CMD=$1
 #SCRIPT_OP1=$2
 
+DOCKER_MAINTAINER="ebasso@ebasso.net"
+DOCKER_REPOSITORY="ebasso"
+DOCKER_VERSION="1"
+DOCKER_FILE=
 
-if [ -z "$DOCKER_REPOSITORY" ]; then
-  DOCKER_REPOSITORY="anonymous"
-fi
+DOCKER_IMAGE_NAME=
+DOCKER_TAG_LATEST=
+DOCKER_DESCRIPTION=
 
-if [ -z "$DOCKER_MAINTAINER" ]; then
-  DOCKER_MAINTAINER="anonymous@company.com"
-fi
-
+CONTAINER_NAME="restart_pods_oc"
 
 usage ()
 {
   echo
-  echo "Usage: `basename $SCRIPT_NAME` { build_example01 | run_example01 | cleanup_images}"
+  echo "Usage: `basename $SCRIPT_NAME` { build_example01 | run | cleanup_images}"
   echo
-  echo "build_example01: Create IBM Cloud Functions container to restart pods on openshift"
+  echo "build: Create IBM Cloud Functions container"
   return 0
 }
 
@@ -63,10 +62,8 @@ docker_run_daemon ()
 # }
 
 docker_build_restart_pods () {
-
-  DOCKER_FILE="dockerfile"
+  DOCKER_FILE=dockerfile
   DOCKER_LABEL="ibmcloudfunctions"
-  DOCKER_VERSION="1"
   DOCKER_IMAGE_NAME="$DOCKER_REPOSITORY/$DOCKER_LABEL"
   DOCKER_TAG_LATEST="$DOCKER_IMAGE_NAME:$DOCKER_VERSION"
   DOCKER_DESCRIPTION="IBM Cloud Functions - Restart Pods on OpenShift"
@@ -96,14 +93,6 @@ docker_build_restart_pods () {
   return 0
 }
 
-docker_run_restart_pods ()
-{
-  CONTAINER_NAME="$DOCKER_REPOSITORY/ibmcloudfunctions"
-  echo "Creating Docker container: $CONTAINER_NAME"
-  docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT $DOCKER_IMAGE_NAME 
-  echo
-}
-
 docker_images_cleanup ()
 {
   echo "Cleanup Docker images <none>"
@@ -117,8 +106,9 @@ case "$SCRIPT_CMD" in
   build_example01)
     docker_build_restart_pods
     ;;
-  run_example01)
-    docker_run_restart_pods
+
+  run)
+    docker_run
     ;;
   cleanup_images)
     docker_images_cleanup

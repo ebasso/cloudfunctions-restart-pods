@@ -1,12 +1,8 @@
 # ibm-cloudfunctions-using-docker
 
-Multiples examples of IBM Cloud Functions. You can use this template to deploy some IBM Cloud Functions assets for you.
+Multiples examples of IBM Cloud Functions using Docker
 
-## Available examples
-
-* Example01 - Hello World using NodeJs and Python
-* Example02 - Using a manifest file to deploy
-* Example03 - Using IBM Cloud Functions to Restart Pods on Openshift
+* Example01 - Using IBM Cloud Functions to Restart Pods on Openshift
 
 
 ## Clonando o repositório
@@ -14,7 +10,7 @@ Multiples examples of IBM Cloud Functions. You can use this template to deploy s
 Vamos clonar o repositório.
 
 ```
-git clone https://github.com/ebasso/ibm-cloudfunctions-examples.git
+git clone https://github.com/ebasso/ibm-cloudfunctions-using-docker.git
 ```
 
 

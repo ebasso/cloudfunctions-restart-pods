@@ -1,0 +1,15 @@
+ packages:
+   example02:
+     version: 1.0
+     license: Apache-2.0
+     actions:
+       hello-js:
+         function: hello.js
+         web-export: true
+     apis:
+       hello-js-api:
+         hello:
+           world:
+             hello-js:
+               method: GET
+               response: http
