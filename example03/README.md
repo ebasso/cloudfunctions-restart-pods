@@ -1,49 +1,31 @@
-# ibm-cloudfunctions-using-docker
+# Example 03: Using IBM Cloud Functions to Restart Pods on Openshift
 
-Multiples examples of IBM Cloud Functions using Docker
-
-* Example01 - Using IBM Cloud Functions to Restart Pods on Openshift
-
-
-## Clonando o repositório
-
-Vamos clonar o repositório.
-
-```
-git clone https://github.com/ebasso/ibm-cloudfunctions-using-docker.git
-```
-
-
-
-
-# Example 01 - Using IBM Cloud Functions to Restart Pods on Openshift
-
-Montando o ambiente
+#### Preparing environment:
 
 ```bash
-cd ibm-cloud-functions-using-docker/install_dir
+cd ibm-cloud-functions-examples/example03/install_dir
 wget https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
 
 cd ..
-chmod a+x build.sh
+chmod a+x ibmfnc.sh
 ```
 
-Definindo as variáveis de ambiente a
+Defining necessary environment variables
 
 ```bash
 export DOCKER_MAINTAINER="<YOUR_EMAIL_ADDRESS>"
 export DOCKER_REPOSITORY="<YOUR_USER_ON_DOCKER_HUB>"
 ```
 
-Fazendo o build da imagem
+Build docker image
 
 ```bash
 ./ibmfnc.sh build
 ```
 
-### Executando o Container
+#### Running Container
 
-Para testar, vamos precisar do token e da url do console do openshif
+Defining necessary environment variables to test:
 
 ```bash
 export IBMCLOUD_OC_TOKEN=""
@@ -51,46 +33,47 @@ export IBMCLOUD_OC_CONSOLE="https://cNNN-e.us-south.containers.cloud.ibm.com:NNN
 export IBMCLOUD_OC_PROJECT=""
 ```
 
-Executando via script
+where:
+
+* IBMCLOUD_OC_TOKEN:  token to authenticate against OpenShift on IBM Cloud.
+* IBMCLOUD_OC_CONSOLE:  url to OpenShift on IBM Cloud.
+* IBMCLOUD_OC_PROJECT:  need to define project on OpenShift.
+
+Running the script
 
 ```bash
-./build.sh run
+./ibmfnc.sh run
 ```
 
-#### Executando manualmente o Container
+#### Running container manually
 
 ```bash
-docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT restart_pods_oc
+docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT restart-pods-oc
 ```
 
-### Upload do Container para o Docker Hub
 
-1. Fazer login no Docker Hub
+
+# Upload Container to Docker Hub
+
+1. Login on Docker Hub
 
 ```bash
 docker login 
 ```
 
-1. Definindo 
+1. Push image
 
 ```bash
-export DOCKER_HUB_USER=""
+docker push <MY_DOCKER_HUB_REPOSITORY>:restart-pods-oc
 ```
 
-1. Fazendo o push da
+# Deploying an action with a custom Docker image
 
-```bash
-docker tag local-image:tagname new-repo:tagname
-docker push new-repo:tagname
-```
-
-### Deploying an action with a custom Docker image
-
-
-ibmcloud fn action create <action_name> --docker <dockerhub_username>/<image_name> <app_file>
 
 ```bash
 ibmcloud login --sso
 
-ibmcloud fn action create sibot/restart_pods_oc --docker $DOCKER_HUB_USER/restart_pods_oc <app_file>
+ibmcloud fn package create example03
+
+ibmcloud fn action create example03/restart-pods-oc --docker <MY_DOCKER_HUB_REPOSITORY>/restart-pods-oc
 ```

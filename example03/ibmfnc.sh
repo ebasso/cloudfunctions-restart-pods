@@ -8,66 +8,37 @@ SCRIPT_NAME=$0
 SCRIPT_CMD=$1
 #SCRIPT_OP1=$2
 
-DOCKER_MAINTAINER="ebasso@ebasso.net"
-DOCKER_REPOSITORY="ebasso"
-DOCKER_VERSION="1"
-DOCKER_FILE=
+DOCKER_LABEL="restart-oc-pods"
+DOCKER_DESCRIPTION="IBM Cloud Functions - Restart Pods on OpenShift"
+DOCKER_FILE=dockerfile
 
-DOCKER_IMAGE_NAME=
-DOCKER_TAG_LATEST=
-DOCKER_DESCRIPTION=
+if [ -z "$DOCKER_VERSION" ]; then
+  DOCKER_VERSION="latest"
+fi
 
-CONTAINER_NAME="restart_pods_oc"
+if [ -z "$DOCKER_REPOSITORY" ]; then
+  DOCKER_IMAGE_NAME="$DOCKER_LABEL"
+else 
+  DOCKER_IMAGE_NAME="$DOCKER_REPOSITORY/$DOCKER_LABEL"
+fi
+
+if [ -z "$DOCKER_MAINTAINER" ]; then
+  DOCKER_MAINTAINER="anonymous@company.com"
+fi
+
+DOCKER_TAG_LATEST="$DOCKER_IMAGE_NAME:$DOCKER_VERSION"
+CONTAINER_NAME="$DOCKER_LABEL"
 
 usage ()
 {
   echo
-  echo "Usage: `basename $SCRIPT_NAME` { build_example01 | run | cleanup_images}"
+  echo "Usage: `basename $SCRIPT_NAME` { build | run | cleanup_images}"
   echo
   echo "build: Create IBM Cloud Functions container"
   return 0
 }
 
-docker_run ()
-{
-  echo "Creating Docker container: $CONTAINER_NAME"
-  docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT $DOCKER_IMAGE_NAME 
-  echo
-}
-
-docker_run_daemon ()
-{
-  # Check if we already have this container in status exited
-  STATUS="$(docker inspect --format '{{ .State.Status }}' $CONTAINER_NAME 2>/dev/null)"
-  
-  if [ -z "$STATUS" ]; then
-    echo "Creating Docker container: $CONTAINER_NAME"
-    docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT $DOCKER_IMAGE_NAME 
-    #docker run --name $CONTAINER_NAME -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT $DOCKER_IMAGE_NAME 
-  elif [ "$STATUS" = "exited" ]; then
-    echo "Starting existing Docker container: $CONTAINER_NAME"
-  #  docker start $CONTAINER_NAME
-  fi
-
-  echo
-}
-
-# docker_stop ()
-# {
-#   # Stop and remove SW repository
-#   docker stop $DOCKER_IMAGE_NAME
-#   docker container rm $SOFTWARE_CONTAINER
-#   echo "Stopped & Removed Software Repository Container"
-#   echo
-# }
-
-docker_build_restart_pods () {
-  DOCKER_FILE=dockerfile
-  DOCKER_LABEL="ibmcloudfunctions"
-  DOCKER_IMAGE_NAME="$DOCKER_REPOSITORY/$DOCKER_LABEL"
-  DOCKER_TAG_LATEST="$DOCKER_IMAGE_NAME:$DOCKER_VERSION"
-  DOCKER_DESCRIPTION="IBM Cloud Functions - Restart Pods on OpenShift"
-
+docker_build() {
   echo "Building Image : " $DOCKER_IMAGE_NAME
 
   # Get Build Time  
@@ -93,6 +64,31 @@ docker_build_restart_pods () {
   return 0
 }
 
+docker_run ()
+{
+  echo "Creating Docker container: $CONTAINER_NAME"
+  if [ -z "$IBMCLOUD_OC_CONSOLE" ]; then
+    echo "Environment variable IBMCLOUD_OC_CONSOLE not defined. Exiting ...".
+    echo
+    exit 1
+  fi
+
+  if [ -z "$IBMCLOUD_OC_TOKEN" ]; then
+    echo "Environment variable IBMCLOUD_OC_TOKEN not defined. Exiting ...".
+    echo
+    exit 2
+  fi
+
+  if [ -z "$IBMCLOUD_OC_PROJECT" ]; then
+    echo "Environment variable IBMCLOUD_OC_PROJECT not defined. Exiting ...".
+    echo
+    exit 3
+  fi
+
+  docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT $DOCKER_IMAGE_NAME 
+  echo
+}
+
 docker_images_cleanup ()
 {
   echo "Cleanup Docker images <none>"
@@ -103,8 +99,8 @@ docker_images_cleanup ()
 }
 
 case "$SCRIPT_CMD" in
-  build_example01)
-    docker_build_restart_pods
+  build)
+    docker_build
     ;;
 
   run)
