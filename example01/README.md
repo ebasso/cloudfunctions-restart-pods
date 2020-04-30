@@ -1,3 +1,6 @@
+Example 01 - Hello World using NodeJs and Python
+===========================
+
 Create a Package for Example 01
 
 ```bash
@@ -17,3 +20,9 @@ Create action using Python example
 ```bash
 ibmcloud fn action create example01/hello-python hello.py --kind python:3.7
 ```
+
+
+Looking at IBM Cloud console, you can see the new created Cloud Function
+
+
+![Screen capture of the Cloud Function](../readme_images/example01.png)

@@ -1,3 +1,6 @@
+Example 02 - Using a manifest file to deploy
+===========================
+
 Create action using NodeJs example
 
 ```sh

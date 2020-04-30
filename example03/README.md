@@ -1,4 +1,6 @@
-# Example 03: Using IBM Cloud Functions to Restart Pods on Openshift
+Example 03 - Using IBM Cloud Functions to Restart Pods on Openshift
+===========================
+
 
 #### Preparing environment:
 
@@ -64,7 +66,7 @@ docker login
 1. Push image
 
 ```bash
-docker push <MY_DOCKER_HUB_REPOSITORY>:restart-pods-oc
+docker push <MY_DOCKER_HUB_REPOSITORY>/restart-pods-oc
 ```
 
 # Deploying an action with a custom Docker image
