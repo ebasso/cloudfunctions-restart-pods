@@ -27,7 +27,15 @@ git clone https://github.com/ebasso/ibm-cloudfunctions-examples.git
 
 
 ```bash
-ibmcloud login --sso
+$ ibmcloud login --sso
+
+Terminal de API: https://cloud.ibm.com
+Região: us-south
+
+Obtenha um código de uso único de https://identity-2.uk-south.iam.cloud.ibm.com/identity/passcode para continuar.
+Abrir a URL no navegador padrão? [Y/n] >
+One Time Code >
 ```
 
+Do the login using Browser and paste the One Time Code.
 Click on examples to how to deploy.
