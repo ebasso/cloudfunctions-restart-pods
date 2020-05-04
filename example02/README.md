@@ -1,6 +1,8 @@
 Example 02 - Using a manifest file to deploy
 ===========================
 
+# hello.js 
+
 Create action using NodeJs example
 
 ```sh
@@ -47,4 +49,13 @@ The deployment manifest file defines the following variables.
 * The action code file name.
 * The API with a base path of /hello.
 * The endpoint path of /world.
+
+
+# hello2.js 
+
+Create action using NodeJs example
+
+```sh
+$ ibmcloud fn deploy --manifest hello2_js_manifest.yml
+```
 

@@ -16,10 +16,10 @@ Defining necessary environment variables
 
 ```bash
 export DOCKER_MAINTAINER="<YOUR_EMAIL_ADDRESS>"
-export DOCKER_REPOSITORY="<YOUR_USER_ON_DOCKER_HUB>"
+export DOCKERHUB_USERNAME="<YOUR_USER_ON_DOCKER_HUB>"
 ```
 
-Build docker image
+Build your custom Docker image
 
 ```bash
 ./ibmfnc.sh build

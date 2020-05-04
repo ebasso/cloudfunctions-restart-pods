@@ -38,4 +38,32 @@ One Time Code >
 ```
 
 Do the login using Browser and paste the One Time Code.
+
+```bash
+Authenticating...
+OK
+
+Selecione uma conta:
+1. ebasso_COMPANY.COM (f..............................5)
+2. Company B S.A. (d..............................3) <-> 1.....3
+4. Company Y Corp (1..............................5) <-> 3.....0
+Insert a number> 1
+Target account ebasso_COMPANY.COM (f..............................5)
+
+
+Terminal de API:     https://cloud.ibm.com
+Região:              us-south
+Usuário:             <MY_USERNAME>
+Conta:               ebasso_COMPANY.COM (f..............................5)
+Grupo de recursos:   Nenhum grupo de recursos destinado, use 'ibmcloud target -g RESOURCE_GROUP'
+API de CF:
+Organização:
+Espaço:
+
+```
+
+
+
 Click on examples to how to deploy.
+
+

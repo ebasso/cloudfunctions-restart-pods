@@ -1,0 +1,12 @@
+packages:
+  example02:
+    version: 1.0
+    license: Apache-2.0
+    actions:
+      hello2-js:
+        function: hello2.js
+        inputs:
+          name: Enio Basso
+          place: Brazil
+      #SecondAction:
+        #docker: your-username/docker-hub-repo
