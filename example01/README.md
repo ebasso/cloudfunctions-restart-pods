@@ -1,21 +1,22 @@
 Example 01 - Hello World using NodeJs and Python
 ===========================
 
-Create a Package for Example 01
+#### Create a Package for Example 01
 
 ```bash
-ibmcloud fn package create example01
+$ ibmcloud fn package create example01
+
+ok: created package example01
 ```
 
-
-Create action using NodeJs example
+####  Create action using NodeJs example
 
 ```bash
 ibmcloud fn action create example01/hello-node hello.js --kind nodejs:10
 ```
 
 
-Create action using Python example
+#### Create action using Python example
 
 ```bash
 ibmcloud fn action create example01/hello-python hello.py --kind python:3.7

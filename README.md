@@ -49,21 +49,57 @@ Selecione uma conta:
 4. Company Y Corp (1..............................5) <-> 3.....0
 Insert a number> 1
 Target account ebasso_COMPANY.COM (f..............................5)
-
-
-Terminal de API:     https://cloud.ibm.com
-Região:              us-south
-Usuário:             <MY_USERNAME>
-Conta:               ebasso_COMPANY.COM (f..............................5)
-Grupo de recursos:   Nenhum grupo de recursos destinado, use 'ibmcloud target -g RESOURCE_GROUP'
-API de CF:
-Organização:
-Espaço:
-
 ```
 
 
+#### Target a namespace
 
-Click on examples to how to deploy.
+Make sure to target this namespace's resource group with ibmcloud target -g [name of resource group]
+You can list available resource groups using the command ibmcloud resource groups
+
+In my case:
+
+```bash
+$ ibmcloud target -o ebasso_COMPANY.COM -g default
+
+API endpoint:      https://cloud.ibm.com
+Region:            us-south
+User:              ebassoAtCompany.com
+Account:           ebasso_COMPANY.COM (f..............................5)
+Resource group:    No resource group targeted, use 'ibmcloud target -g RESOURCE_GROUP'
+CF API endpoint:   https://api.us-south.cf.cloud.ibm.com (API version: 2.147.0)
+Org:               ebassoAtCompany.com
+Space:             
+```
+
+
+#### Create a namespace
+
+```bash
+$ ibmcloud fn namespace create cloudfunctions-dev
+
+ok: created namespace cloudfunctions-dev
+```
+
+#### Listing the namespace
+
+```bash
+$ ibmcloud fn namespace list
+
+name                     type            id                                    description
+cloudfunctions-dev       IAM-based       XXXXXXXX-XXXX-XXXX-XXXX-844dc90ae28X
+ebassoAtCompany.com_dev  CF-based        ebassoAtCompany.com_dev
+```
+
+#### Preparing to our examples
+
+```bash
+$ ibmcloud fn property set --namespace cloudfunctions-dev
+
+ok: whisk namespace set to cloudfunctions-dev
+```
+ 
+
+**Now you can Click on examples to how to deploy**.
 
 
