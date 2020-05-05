@@ -1,0 +1,19 @@
+packages:
+  OpenshiftFnPkgTools:
+    version: 1.0
+    license: Apache-2.0
+    actions:
+      list-pods-in-namespace:
+        function: list-pods.py
+        inputs:
+          IBMCLOUD_OC_CONSOLE: https://c101-e.us-south.containers.cloud.ibm.com:NNNNN
+          IBMCLOUD_OC_TOKEN: XXXXXX-XXXXX-XXXXXX
+          IBMCLOUD_OC_PROJECT: YYYYYY
+          APIKEY: ZZZZZ
+      delete-pods-in-namespace:
+        function: delete-pods.py
+        inputs:
+          IBMCLOUD_OC_CONSOLE: https://c101-e.us-south.containers.cloud.ibm.com:NNNNN
+          IBMCLOUD_OC_TOKEN: XXXXXX-XXXXX-XXXXXX
+          IBMCLOUD_OC_PROJECT: YYYYYY
+          APIKEY: ZZZZZ

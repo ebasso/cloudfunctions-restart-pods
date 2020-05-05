@@ -1,0 +1,12 @@
+packages:
+  example04:
+    version: 1.0
+    license: Apache-2.0
+    actions:
+      helper:
+        function: example04.zip
+        runtime: python:3.7
+        inputs:
+          name: Enio Basso
+          p1: value1
+          p2: value2
