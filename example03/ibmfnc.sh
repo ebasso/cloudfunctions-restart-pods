@@ -32,9 +32,10 @@ CONTAINER_NAME="$DOCKER_LABEL"
 usage ()
 {
   echo
-  echo "Usage: `basename $SCRIPT_NAME` { build | run | cleanup_images}"
+  echo "Usage: `basename $SCRIPT_NAME` { build | run | manifest| cleanup_images}"
   echo
   echo "build: Create IBM Cloud Functions container"
+  echo "manifest: Generate a manifest.aml file"
   return 0
 }
 
@@ -98,16 +99,55 @@ docker_images_cleanup ()
   echo
 }
 
+generate_manifest_yaml()
+{
+cat <<EOF >manifest.yaml
+packages:
+  example03:
+    version: 1.0
+    license: Apache-2.0
+    actions:
+      $DOCKER_LABEL:
+        docker: $DOCKERHUB_USERNAME/$DOCKER_LABEL:$DOCKER_VERSION
+        inputs:
+          IBMCLOUD_OC_CONSOLE: "$IBMCLOUD_OC_CONSOLE"
+          IBMCLOUD_OC_TOKEN: "$IBMCLOUD_OC_TOKEN"
+          IBMCLOUD_OC_PROJECT: "$IBMCLOUD_OC_PROJECT"
+EOF
+}
+
+docker_push()
+{
+  docker push $DOCKERHUB_USERNAME/$DOCKER_LABEL:$DOCKER_VERSION
+  echo
+}
+
+fn_action_deploy()
+{
+  ibmcloud fn deploy --manifest manifest.yaml
+  echo
+}
+
 case "$SCRIPT_CMD" in
   build)
     docker_build
+    generate_manifest_yaml
     ;;
 
   run)
     docker_run
     ;;
+  manifest)
+    generate_manifest_yaml
+    ;;
   cleanup_images)
     docker_images_cleanup
+    ;;
+  all)
+    docker_build
+    generate_manifest_yaml
+    docker_push
+    fn_action_deploy
     ;;
   *)
     echo

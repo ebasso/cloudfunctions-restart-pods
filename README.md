@@ -11,7 +11,8 @@ Multiples examples of IBM Cloud Functions. You can use this template to deploy s
 
 * [Example 01 - Hello World using NodeJs and Python](https://github.com/ebasso/ibm-cloudfunctions-examples/tree/master/example01)
 * [Example 02 - Using a manifest file to deploy](https://github.com/ebasso/ibm-cloudfunctions-examples/tree/master/example02)
-* [Example 03 - Using IBM Cloud Functions to Restart Pods on Openshift](https://github.com/ebasso/ibm-cloudfunctions-examples/tree/master/example03)
+* Draft [Example 03 - Using IBM Cloud Functions to Restart Pods on Openshift](https://github.com/ebasso/ibm-cloudfunctions-examples/tree/master/example03)
+* [Example 04 - Deploy using a Zip file](https://github.com/ebasso/ibm-cloudfunctions-examples/tree/master/example04)
 
 
 # Cloning Repository

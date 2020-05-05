@@ -25,6 +25,15 @@ Build your custom Docker image
 ./ibmfnc.sh build
 ```
 
+Checking my image
+
+```bash
+$ docker images
+
+REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
+<YOUR_USER_ON_DOCKER_HUB>/restart-oc-pods       latest              c07065f08e57        6 seconds ago       301MB
+```
+
 #### Running Container
 
 Defining necessary environment variables to test:
@@ -33,6 +42,7 @@ Defining necessary environment variables to test:
 export IBMCLOUD_OC_TOKEN=""
 export IBMCLOUD_OC_CONSOLE="https://cNNN-e.us-south.containers.cloud.ibm.com:NNNNN"
 export IBMCLOUD_OC_PROJECT=""
+export SLEEP_TIME="5"
 ```
 
 where:
@@ -50,7 +60,7 @@ Running the script
 #### Running container manually
 
 ```bash
-docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT restart-pods-oc
+docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT $DOCKERHUB_USERNAME/restart-oc-pods
 ```
 
 
@@ -63,19 +73,41 @@ docker run -e IBMCLOUD_OC_TOKEN -e IBMCLOUD_OC_CONSOLE -e IBMCLOUD_OC_PROJECT re
 docker login 
 ```
 
-1. Push image
+2. Push image
 
 ```bash
-docker push <MY_DOCKER_HUB_REPOSITORY>/restart-pods-oc
+docker push $DOCKERHUB_USERNAME/restart-oc-pods
 ```
 
 # Deploying an action with a custom Docker image
 
+using manifest.yaml file
+```bash
+$ ibmcloud fn deploy --manifest manifest.yaml
+
+ok: created action example03/restart-oc-pods
+```
+or manually
 
 ```bash
-ibmcloud login --sso
+$ ibmcloud fn package create example03
 
-ibmcloud fn package create example03
+$ ibmcloud fn action create example03/restart-oc-pods --docker $DOCKERHUB_USERNAME/restart-oc-pods
 
-ibmcloud fn action create example03/restart-pods-oc --docker <MY_DOCKER_HUB_REPOSITORY>/restart-pods-oc
+ok: created action example03/restart-oc-pods
 ```
+
+Run and get logs
+
+```bash
+$ ibmcloud fn action invoke example03/restart-oc-pods --result
+
+ok: invoked /_/example03/restart-oc-pods, but the request has not yet finished, with id <ACTIVATION_ID>
+
+$ ibmcloud fn activation get <ACTIVATION_ID>
+```
+
+
+Looking at IBM Cloud console, you can see the new created Cloud Function
+
+![Screen capture of the Cloud Function](../readme_images/example03-01.png)

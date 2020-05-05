@@ -1,0 +1,12 @@
+packages:
+  example03:
+    version: 1.0
+    license: Apache-2.0
+    actions:
+      restart-oc-pods:
+        docker: <DOCKERHUB_USERNAME>/restart-oc-pods:latest
+        inputs:
+          IBMCLOUD_OC_CONSOLE: "https://cNNN-e.us-south.containers.cloud.ibm.com:NNNNN"
+          IBMCLOUD_OC_TOKEN: "NNNNNN"
+          IBMCLOUD_OC_PROJECT: "PPPPPP"
+          
